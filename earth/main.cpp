@@ -155,9 +155,6 @@ int main(int argc,  char * argv[]) {
     
     init();
     
-    
-    init();
-    
     glutMainLoop();
     
     return 0;
