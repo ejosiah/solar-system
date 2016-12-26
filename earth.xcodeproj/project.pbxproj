@@ -48,6 +48,11 @@
 		695E859C1E08850300E4A2EF /* libGLEW.1.12.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.12.0.dylib; path = ../../../../opt/local/lib/libGLEW.1.12.0.dylib; sourceTree = "<group>"; };
 		695E859D1E08850300E4A2EF /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = ../../../../opt/local/lib/libGLEW.a; sourceTree = "<group>"; };
 		695E85A01E0921CF00E4A2EF /* math_stuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = math_stuff.h; sourceTree = "<group>"; };
+		69796A991E100321003A8955 /* earth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = earth.h; sourceTree = "<group>"; };
+		69796A9A1E100408003A8955 /* body.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = body.h; sourceTree = "<group>"; };
+		69796A9B1E10193B003A8955 /* transformation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = transformation.h; path = include/maths/transformation.h; sourceTree = SOURCE_ROOT; };
+		69796A9C1E103117003A8955 /* gl_utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gl_utility.h; sourceTree = "<group>"; };
+		69796A9D1E103319003A8955 /* moon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = moon.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +90,7 @@
 		695E85501E081EB800E4A2EF /* earth */ = {
 			isa = PBXGroup;
 			children = (
+				69796A991E100321003A8955 /* earth.h */,
 				695E85941E086B9100E4A2EF /* image_DXT.c */,
 				695E85951E086B9100E4A2EF /* image_helper.c */,
 				695E85961E086B9100E4A2EF /* SOIL.c */,
@@ -92,6 +98,10 @@
 				695E85511E081EB800E4A2EF /* main.cpp */,
 				695E855D1E0822BA00E4A2EF /* sphere.h */,
 				695E85A01E0921CF00E4A2EF /* math_stuff.h */,
+				69796A9A1E100408003A8955 /* body.h */,
+				69796A9B1E10193B003A8955 /* transformation.h */,
+				69796A9C1E103117003A8955 /* gl_utility.h */,
+				69796A9D1E103319003A8955 /* moon.h */,
 			);
 			path = earth;
 			sourceTree = "<group>";

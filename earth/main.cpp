@@ -17,6 +17,8 @@
 #include <maths/Matrix4.h>
 #include <maths/Quaternion.h>
 #include "sphere.h"
+#include "earth.h"
+#include "moon.h"
 
 using namespace physics;
 using namespace std;
@@ -24,16 +26,14 @@ using namespace std;
 float scale = 0.00078480615f;
 
 float d = 15;
-GLuint textureId;
-sphere earth, clouds, moon;
-float spin = 0;
-float moonSpin = 0;
-float moonOrbit = 0;
-float speed = 6.0f; // float speed = 0.004166666666667f;
+float speed = 6.0f * DEG_TO_RAD; // float speed = 0.004166666666667f;
+//float speed = 10 * physics::PI;
 float orbitSpeed = speed/28;
 float moonR = 1.363208287552974;
-GLuint moonTexture;
-GLuint cloudTexture;
+Earth earth{speed};
+Moon moon{moonR, d, orbitSpeed};
+float currentTime = 0;
+
 
 Vector rotAxis{-0.398894, 0.916997, 0};
 real transformation[16];
@@ -59,28 +59,9 @@ void init(){
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     
-    earth = {5, 20, 20, "/Users/jay/projects/earth/earthmap1k.jpg"};
-    clouds = {5.2, 50, 50, {1.0, 1.0, 1.0, 0.3}, "/Users/jay/projects/earth/earthcloudmaptrans.jpg"};
-    moon = {moonR, 50, 50, "/Users/jay/Downloads/moon.jpg"};
+    earth.init();
+    moon.init();
 }
-
-void updateRotation(){
-    real sin0 = real_sin(spin/2 * DEG_TO_RAD);
-    real cos0 = real_cos(spin/2 * DEG_TO_RAD);
-    Vector rot = rotAxis * sin0;
-    Quaternion q{ cos0, rot.x, rot.y, rot.z };
-    q.normailize();
-    Matrix4 m;
-    m.rotate(q);
-    
-    for(int j = 0; j < 4; j++){
-        for(int i = 0; i < 4; i++){
-            transformation[j * 4 + i] = m(i, j);
-        }
-    }
-    
-}
-
 
 void display(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -89,44 +70,24 @@ void display(){
 
     gluLookAt(0, 0, 20, 0, 0, 0, 0, 1, 0);
     
-    glPushMatrix();
-    glRotated(moonOrbit, 0, 1, 0);
-    glTranslatef(0, 0, d);
-    glRotated(moonOrbit, 0, 1, 0);
-    glBindTexture(GL_TEXTURE_2D, moonTexture);
     moon.draw();
-    glPopMatrix();
-    
-    glTranslatef(0, earth.r, 0);
-    
-    
-    updateRotation();
-    glPushMatrix();
-    glTranslatef(0, -earth.r, 0);
-    glRotatef(180, 1, 0, 0);
-    glTranslatef(0, earth.r, 0);
-    glMultMatrixf(transformation);
-    glTranslatef(0, -earth.r, 0);
-    
-    
     earth.draw();
     
-    glDepthMask(false);
-    glRotatef(spin, 0, 1, 0);
-    clouds.draw();
-    glDepthMask(true);
-    glPopMatrix();
     
     glFlush();
     glutSwapBuffers();
 }
 
+float getElapsedTime(){
+    float t = ((glutGet(GLUT_ELAPSED_TIME)/1000.0) - currentTime);
+    currentTime += t;
+    return t;
+}
+
 void update(){
-    float t = glutGet(GLUT_ELAPSED_TIME)/1000.0f;
-    spin = speed * t;
-    moonOrbit = orbitSpeed * t;
-    if(spin > 360) spin -= 360;
-    if(moonOrbit > 360) moonOrbit -= 360;
+    float t = getElapsedTime();
+    earth.update(t);
+    moon.update(t);
     glutPostRedisplay();
 }
 
